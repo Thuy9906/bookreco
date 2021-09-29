@@ -19,6 +19,7 @@ Mapping book_id - titre
 """
 
 import pandas as pd
+import numpy as np
 r = pd.read_csv( 'data/ratings.csv' )
 b = pd.read_csv( 'data/books.csv' )
 
@@ -58,8 +59,8 @@ def map_id_title(iid):
 
 fr = merge_books_users_filter()
 rp = pivot_ratings() 
-top_users = fr['user_id'].unique()
-top_books = fr['book_id'].unique()
+top_users = np.sort(fr['user_id'].unique())
+top_books = np.sort(fr['book_id'].unique())
 b2 = b[b['book_id'].isin(top_books)][['book_id', 'title']]
 
 """

@@ -47,10 +47,11 @@ def run():
     print("Pour obtenir une recommandation de livres rentrer votre ID utilisateur, ou 'NEW' si vous êtes nouveau.")
     print(" Voici une liste d'ID possible.",top_users, "A vous de jouer :")
     ID = input()
-    if ID.isnumeric() & int(ID) in top_users:
-        cfub(int(ID))
-    else :
-        print('l\'id que vous avez rentré n\'est pas dans la liste proposé')
+    if ID.isnumeric():
+        if int(ID) in top_users:
+            cfub(int(ID))
+        else :
+            print('l\'id que vous avez rentré n\'est pas dans la liste proposée')
     print ('rentrer au moins un genre de livre parmis la liste ci-dessous')
     reco_u1 = new_user()
     print("livres de vos genres favoris", list(reco_u1['original_title']))
