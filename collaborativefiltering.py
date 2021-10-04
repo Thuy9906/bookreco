@@ -8,13 +8,13 @@ Préprocessing : 5%
 
 . des utilisateurs les plus collaboratifs (qui ont donné le plus de notes)
 
-Construire la table pivot qui va servir au modèle :
+Construire la table pivot qui va servir au collaborative filtering model-based avec :
 
-. CF memory-based (proposer des livres similaires à un livre lu/consulté récemment)
+. clustering (proposer des livres similaires à un livre lu/consulté récemment)
 
-. CF model-based (proposer des livres qui pourraient être bien notés par l'utilisateur)
+. matrix factorization (proposer des livres qui pourraient être bien notés par l'utilisateur)
 
-Mapping book_id - titre
+Mapping book_id_titre : fonction pour retrouver le titre d'un livre à partir de son id
 
 """
 
@@ -62,13 +62,3 @@ rp = pivot_ratings()
 top_users = np.sort(fr['user_id'].unique())
 top_books = np.sort(fr['book_id'].unique())
 b2 = b[b['book_id'].isin(top_books)][['book_id', 'title']]
-
-"""
-
-rp_knn=pr_knn()
-def pr_knn():
-    rp_knn=fr.merge(b2, on='book_id').pivot_table(columns='user_id', index='title', values="rating")
-    rp_knn.fillna(0, inplace=True)
-    return rp_knn
-
-"""

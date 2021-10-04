@@ -13,19 +13,12 @@ Etapes
 """
 
 import pandas as pd
-from collaborativefiltering import rp, fr, map_id_title
-from surprise import Reader, Dataset, SVD
+from collaborativefiltering import rp, map_id_title
+from joblib import load
 
 # step 1 CF UB
-def build_svd():
-    svd=SVD()    
-    reader = Reader()
-    data = Dataset.load_from_df(fr[['user_id', 'book_id', 'rating']], reader)
-    trainset = data.build_full_trainset()
-    svd.fit(trainset)
-    return svd
 
-svd = build_svd()
+svd = load("svd.joblib")
 
 # step 2 CF UB
 def estimate_rating(uid, iid):
@@ -47,7 +40,7 @@ def recommend_best_est_books(userid, threeshold = 4):
         if rating_est[key] >= threeshold :
             # ajouter le livre à la liste des recommandations
             books_to_recommend.append(map_id_title(key))
-    print ("basé sur les notes que vous avez données, voici les livres que vous pourriez aimer", books_to_recommend)
+    print ("(réponse de requête API) recommandation avec MF : \n", books_to_recommend)
     #print ("nombre de livres à recommander : ", len(books_to_recommend))
     #print ("nombre de livres non notés : ", len(rating_est))
     

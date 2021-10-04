@@ -1,5 +1,5 @@
 """
-Collabotative filtering memory-based (Item-Item filtering)
+Collabotative filtering model-based (Clustering algorithm)
 
 Objectif : 
 Proposer un livre similaire à un livre qui a été consulté basé sur la notation des utilisateurs
@@ -11,14 +11,12 @@ Etapes :
 """
 
 from collaborativefiltering import rp, map_id_title, top_books
-from scipy.sparse import csr_matrix
-from sklearn.neighbors import NearestNeighbors
+from joblib import load
 import pandas as pd
 import numpy as np
-def recommend_similary_books(book_id=26):
-    book_sparse = csr_matrix(rp)
-    model = NearestNeighbors(n_neighbors=10,algorithm='brute')
-    model.fit(book_sparse)
+
+def recommend_similar_books(book_id=26):
+    model = load("knn.joblib")
     distances, suggestions = model.kneighbors(rp.loc[book_id, :].values.reshape(1, -1)) # rp.iloc[0, :].values.reshape(1, -1)
     sim_books = []
     for i in range(suggestions.shape[1]):
@@ -26,7 +24,7 @@ def recommend_similary_books(book_id=26):
         book_id = dict_csr_rp.get(csr_id)
         book = map_id_title(book_id)
         sim_books.append(book) 
-    print('livres similaires au dernier livre consulté', sim_books)   
+    print('(réponse de requête API) recommandation avec le clustering : \n', sim_books)   
     
 
 def map_csr_rp():
@@ -36,5 +34,3 @@ def map_csr_rp():
     return dict_csr_rp
 
 dict_csr_rp = map_csr_rp()
-print(type(dict_csr_rp))
-

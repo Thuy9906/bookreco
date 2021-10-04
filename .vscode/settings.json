@@ -1,0 +1,11 @@
+{
+    "mssql.connections": [
+
+        {
+            "server": "localhost",
+            "database": "{{put-database-name-here}}",
+            "user": "SA",
+            "password": "Simplon2021!"
+        }
+    ]
+}
